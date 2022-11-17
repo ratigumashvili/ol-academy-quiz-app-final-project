@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRef } from "react";
+import useModal from "../hooks/useModal";
 import Modal from "../components/Modal";
 
 const Results = ({
@@ -7,11 +8,14 @@ const Results = ({
   attemptsHistory,
   setAttemptsHistory,
 }) => {
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
-  const handleModalToggle = () => {
-    setShowModal((prev) => !prev);
-  };
+  // const handleModalToggle = () => {
+  //   setShowModal((prev) => !prev);
+  // };
+
+  const modalRef = useRef();
+  const { isShowing, toggle: toggleModal } = useModal(modalRef);
 
   return (
     <>
@@ -21,13 +25,14 @@ const Results = ({
         <b>{data?.questions?.length}</b>
       </p>
 
-      <button className="common-btn" onClick={handleModalToggle}>
+      <button className="common-btn" onClick={toggleModal}>
         Try Again
       </button>
-      {showModal && (
+      {isShowing && (
         <Modal
+          modalRef={modalRef}
           correctAnswers={correctAnswers}
-          handleModalToggle={handleModalToggle}
+          toggleModal={toggleModal}
           attemptsHistory={attemptsHistory}
           setAttemptsHistory={setAttemptsHistory}
         />
