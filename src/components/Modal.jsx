@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import uuid from "react-uuid";
 import formatted_date from "../helpers/getDate";
@@ -10,7 +10,6 @@ const Modal = ({
   setAttemptsHistory,
 }) => {
   const navigate = useNavigate();
-  const [locale, setLocale] = useState([]);
 
   const modalRef = useRef();
 
@@ -26,27 +25,25 @@ const Modal = ({
     };
   }, [handleModalToggle]);
 
-  const handleNavigate = (value) => {
-    value === "no" && navigate("/");
-    if (value === "yes") {
-      setAttemptsHistory([
-        ...attemptsHistory,
-        {
-          id: uuid(),
-          time: formatted_date(),
-          score: correctAnswers,
-        },
-      ]);
-      setTimeout(() => {
-        navigate("/");
-      }, 1);
-    }
+  const handleAddRecord = async () => {
+    setAttemptsHistory([
+      ...attemptsHistory,
+      {
+        id: uuid(),
+        time: formatted_date(),
+        score: correctAnswers,
+      },
+    ]);
+  };
+
+  const handleNavigateHome = async () => {
+    await handleAddRecord();
+    navigate("/");
   };
 
   useEffect(() => {
-    setLocale(attemptsHistory);
-    localStorage.setItem("past-attempts-v1", JSON.stringify(locale));
-  }, [locale, setLocale, attemptsHistory]);
+    localStorage.setItem("past-attempts-v1", JSON.stringify(attemptsHistory));
+  }, [attemptsHistory]);
 
   return (
     <div className="modal" ref={modalRef}>
@@ -57,8 +54,8 @@ const Modal = ({
             &times;
           </button>
         </div>
-        <button onClick={() => handleNavigate("yes")}>Yes</button>
-        <button onClick={() => handleNavigate("no")}>No</button>
+        <button onClick={() => handleNavigateHome()}>Yes</button>
+        <button onClick={() => navigate("/")}>No</button>
       </div>
     </div>
   );
