@@ -1,29 +1,16 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import uuid from "react-uuid";
 import formatted_date from "../helpers/getDate";
 
 const Modal = ({
+  modalRef,
   correctAnswers,
-  handleModalToggle,
+  toggleModal,
   attemptsHistory,
   setAttemptsHistory,
 }) => {
   const navigate = useNavigate();
-
-  const modalRef = useRef();
-
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (e.target === modalRef.current) {
-        handleModalToggle();
-      }
-    };
-    document.addEventListener("click", handleOutsideClick);
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [handleModalToggle]);
 
   const handleAddRecord = async () => {
     setAttemptsHistory([
@@ -50,7 +37,7 @@ const Modal = ({
       <div className="modal-content">
         <div className="modal-header">
           <h2>Do you want to save this attempt?</h2>
-          <button className="close" onClick={handleModalToggle}>
+          <button className="close" onClick={toggleModal}>
             &times;
           </button>
         </div>
