@@ -8,12 +8,6 @@ const Results = ({
   attemptsHistory,
   setAttemptsHistory,
 }) => {
-  // const [showModal, setShowModal] = useState(false);
-
-  // const handleModalToggle = () => {
-  //   setShowModal((prev) => !prev);
-  // };
-
   const modalRef = useRef();
   const { isShowing, toggle: toggleModal } = useModal(modalRef);
 
