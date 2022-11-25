@@ -20,10 +20,6 @@ const Quiz = ({ data, loading, setCorrectAnswers }) => {
 
   const { type, total, currentQuestion } = initialQuestions;
 
-  const handleProgressBarChange = useCallback(() => {
-    setProgress(calculateStep(currentQuestion, total));
-  }, [currentQuestion, total]);
-
   useEffect(() => {
     if (data && Object.keys(data).length !== 0) {
       setInitialQuestions((prev) => {
@@ -40,6 +36,10 @@ const Quiz = ({ data, loading, setCorrectAnswers }) => {
   useEffect(() => {
     setCorrectAnswers(0);
   }, [setCorrectAnswers]);
+
+  const handleProgressBarChange = useCallback(() => {
+    setProgress(calculateStep(currentQuestion, total));
+  }, [currentQuestion, total]);
 
   if (loading) return <Spinner />;
 
