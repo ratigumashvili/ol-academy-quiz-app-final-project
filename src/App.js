@@ -12,6 +12,7 @@ import { getDataFromLS } from "./helpers/getLocalStorage";
 
 function App() {
   const { fetchedData: data, loading } = useFetch();
+
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [attemptsHistory, setAttemptsHistory] = useState(
     getDataFromLS("past-attempts-v1") || []

@@ -4,7 +4,8 @@ import {
   getDataWithExpiry,
 } from "../helpers/getLocalStorage";
 
-const URL = `https://my-json-server.typicode.com/DanielBarbakadze/Advanced-JS-and-React-Basics/db`;
+// const URL = `https://my-json-server.typicode.com/DanielBarbakadze/Advanced-JS-and-React-Basics/db`;
+const URL = `https://my-json-server.typicode.com/ratigumashvili/quizz-db/db`;
 
 const useFetch = () => {
   const [fetchedData, setFetchData] = useState([]);

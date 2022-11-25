@@ -25,7 +25,7 @@ const Quiz = ({ data, loading, setCorrectAnswers }) => {
   }, [currentQuestion, total]);
 
   useEffect(() => {
-    if (data.questions) {
+    if (data && Object.keys(data).length !== 0) {
       setInitialQuestions((prev) => {
         return {
           ...prev,

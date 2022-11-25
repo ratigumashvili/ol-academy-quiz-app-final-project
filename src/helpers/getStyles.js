@@ -1,7 +1,7 @@
 const detectStyle = (answer, item, showStyles) => {
   if (typeof answer === "number") {
     return showStyles
-      ? item.at(-1) === answer.toString()
+      ? item.toString().at(-1) === answer.toString()
         ? "correct"
         : "incorrect"
       : null;
