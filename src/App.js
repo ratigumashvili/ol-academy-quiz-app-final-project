@@ -8,12 +8,13 @@ import Results from "./pages/Results";
 import NotFound from "./pages/NotFound";
 
 import useFetch from "./hooks/useFetch";
+import { getDataFromLS } from "./helpers/getLocalStorage";
 
 function App() {
   const { fetchedData: data, loading } = useFetch();
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [attemptsHistory, setAttemptsHistory] = useState(
-    JSON.parse(localStorage.getItem("past-attempts-v1")) || []
+    getDataFromLS("past-attempts-v1") || []
   );
 
   return (
