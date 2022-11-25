@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import uuid from "react-uuid";
+
 import formatted_date from "../helpers/getDate";
+import { setDataToLS } from "../helpers/getLocalStorage";
 
 const Modal = ({
   modalRef,
@@ -29,7 +32,7 @@ const Modal = ({
   };
 
   useEffect(() => {
-    localStorage.setItem("past-attempts-v1", JSON.stringify(attemptsHistory));
+    setDataToLS("past-attempts-v1", attemptsHistory);
   }, [attemptsHistory]);
 
   return (

@@ -15,9 +15,12 @@ const MultipleQuestion = ({
   const answer = data?.answers[current]?.answer;
   const [countClick, setCountClick] = useState(0);
   const [choices, setChoices] = useState([]);
-  const [disabled, setDisabeled] = useState(false);
-  const [showStyles, setShowStyles] = useState(false);
-  const [showNext, setShowNext] = useState(false);
+
+  const [generateResult, setGenerateResult] = useState({
+    disabled: false,
+    showStyles: false,
+    showNext: false,
+  });
 
   const handleDetectClick = (value) => {
     if (!choices.includes(value.at(-1))) {
@@ -34,13 +37,22 @@ const MultipleQuestion = ({
     };
 
     if (countClick === answer.length) {
-      setShowStyles(true);
       checkAnswer();
-      setDisabeled(true);
-      setShowNext(true);
+
+      setGenerateResult((prev) => {
+        return {
+          ...prev,
+          disabled: true,
+          showStyles: true,
+          showNext: true,
+        };
+      });
+
       handleProgressBarChange();
     }
   }, [answer, choices, countClick, setCorrectAnswers, handleProgressBarChange]);
+
+  const { disabled, showStyles, showNext } = generateResult;
 
   return (
     <>

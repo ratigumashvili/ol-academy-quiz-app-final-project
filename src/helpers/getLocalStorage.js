@@ -20,3 +20,15 @@ export const getDataWithExpiry = (key) => {
   }
   return item.value;
 };
+
+export const setDataToLS = (key, values) => {
+  return localStorage.setItem(key, JSON.stringify(values));
+};
+
+export const getDataFromLS = (key) => {
+  const itemStr = localStorage.getItem(key);
+  if (!itemStr) {
+    return null;
+  }
+  return JSON.parse(itemStr);
+};

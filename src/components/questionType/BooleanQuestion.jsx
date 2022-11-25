@@ -16,19 +16,30 @@ const BooleanQuestion = ({
   setCorrectAnswers,
   handleProgressBarChange,
 }) => {
-  const [disabled, setDisabled] = useState(false);
-  const [showStyles, setShowStyles] = useState(false);
-  const [showNext, setShowNext] = useState(false);
+  const [generateResult, setGenerateResult] = useState({
+    disabled: false,
+    showStyles: false,
+    showNext: false,
+  });
+
   const answer = data?.answers[current]?.answer;
-  const handleDetectClick = (item) => {
-    setDisabled(true);
-    setShowStyles(true);
-    setShowNext(true);
+
+  const handleDetectClick = ({ value }) => {
+    setGenerateResult((prev) => {
+      return {
+        ...prev,
+        disabled: true,
+        showStyles: true,
+        showNext: true,
+      };
+    });
     handleProgressBarChange();
-    if (item.value === answer.toString()) {
+    if (value === answer.toString()) {
       setCorrectAnswers((prev) => prev + 1);
     }
   };
+
+  const { disabled, showStyles, showNext } = generateResult;
   return (
     <>
       <Question

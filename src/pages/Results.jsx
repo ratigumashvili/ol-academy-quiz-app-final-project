@@ -22,6 +22,7 @@ const Results = ({
       <button className="common-btn" onClick={toggleModal}>
         Try Again
       </button>
+
       {isShowing && (
         <Modal
           modalRef={modalRef}

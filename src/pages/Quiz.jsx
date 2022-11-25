@@ -7,12 +7,16 @@ import BooleanQuestion from "../components/questionType/BooleanQuestion";
 import CustomProgressBar from "../components/CustomProgressBar";
 
 const Quiz = ({ data, loading, setCorrectAnswers }) => {
-  const [type, setType] = useState(null);
-  const [current, setCurrent] = useState(0);
+  const [initialQuestions, setInitialQuestions] = useState({
+    type: null,
+    total: 0,
+    currentQuestion: 0,
+  });
 
+  const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  const { type, total, currentQuestion } = initialQuestions;
 
   const handleProgressBarChange = useCallback(() => {
     setProgress(((currentQuestion / total) * 100).toFixed());
@@ -20,9 +24,14 @@ const Quiz = ({ data, loading, setCorrectAnswers }) => {
 
   useEffect(() => {
     if (data.questions) {
-      setType(data.questions[current].type);
-      setTotal(data.questions.length);
-      setCurrentQuestion(data.questions[current].id);
+      setInitialQuestions((prev) => {
+        return {
+          ...prev,
+          type: data.questions[current].type,
+          total: data.questions.length,
+          currentQuestion: data.questions[current].id,
+        };
+      });
     }
   }, [data, current]);
 
@@ -35,6 +44,7 @@ const Quiz = ({ data, loading, setCorrectAnswers }) => {
   return (
     <>
       <CustomProgressBar progress={progress} />
+
       {type === "single" && (
         <SingleQuestion
           data={data}
@@ -44,6 +54,7 @@ const Quiz = ({ data, loading, setCorrectAnswers }) => {
           handleProgressBarChange={handleProgressBarChange}
         />
       )}
+
       {type === "multiple" && (
         <MultipleQuestion
           data={data}
@@ -53,6 +64,7 @@ const Quiz = ({ data, loading, setCorrectAnswers }) => {
           handleProgressBarChange={handleProgressBarChange}
         />
       )}
+
       {type === "boolean" && (
         <BooleanQuestion
           data={data}

@@ -11,20 +11,31 @@ const SingleQuestion = ({
   setCorrectAnswers,
   handleProgressBarChange,
 }) => {
-  const [showStyles, setShowStyles] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-  const [showNext, setShowNext] = useState(false);
+  const [generateResult, setGenerateResult] = useState({
+    showStyles: false,
+    disabled: false,
+    showNext: false,
+  });
   const answer = data?.answers[current]?.answer;
 
   const handleDetectClick = (value) => {
-    setShowStyles(true);
-    setDisabled(true);
     if (value.at(-1) === answer.toString()) {
       setCorrectAnswers((prev) => prev + 1);
     }
-    setShowNext(true);
+
+    setGenerateResult((prev) => {
+      return {
+        ...prev,
+        showStyles: true,
+        disabled: true,
+        showNext: true,
+      };
+    });
+
     handleProgressBarChange();
   };
+
+  const { showStyles, disabled, showNext } = generateResult;
   return (
     <>
       <Question

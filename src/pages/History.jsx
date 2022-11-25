@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 
 import ContextMenu from "../components/ContextMenu";
 import useContextMenu from "../hooks/useContextMenu";
+import { setDataToLS } from "../helpers/getLocalStorage";
 
 const History = ({ attemptsHistory, setAttemptsHistory }) => {
   const handleRemoveItem = (id) => {
     const updatedArry = attemptsHistory.filter((item) => item.id !== id);
     setAttemptsHistory(updatedArry);
-    localStorage.setItem("past-attempts-v1", JSON.stringify(updatedArry));
+    setDataToLS("past-attempts-v1", updatedArry);
   };
 
   const historyList = useRef();
@@ -19,41 +20,37 @@ const History = ({ attemptsHistory, setAttemptsHistory }) => {
     menuRef
   );
 
+  const sortRecors = (a, b) => {
+    return b.score !== a.score
+      ? b.score > a.score
+        ? 1
+        : -1
+      : b.time > a.time
+      ? 1
+      : -1;
+  };
   return (
     <>
       <h2>History</h2>
       {attemptsHistory && (
         <ul className="history-list" ref={historyList}>
-          {attemptsHistory
-            .sort((a, b) =>
-              b.score !== a.score
-                ? b.score > a.score
-                  ? 1
-                  : -1
-                : b.time > a.time
-                ? 1
-                : -1
-            )
-            .map((item) => {
-              const { id, time, score } = item;
-              return (
-                <li key={id}>
-                  <div id={id}>Time: {time}</div>{" "}
-                  <div>
-                    Score: {score}{" "}
-                    <button
-                      onClick={() => handleRemoveItem(id)}
-                      className="common-btn remove-btn"
-                      style={{ marginLeft: "15px" }}
-                    >
-                      x
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
+          {attemptsHistory.sort(sortRecors).map(({ id, time, score }) => (
+            <li key={id}>
+              <div id={id}>Time: {time}</div>{" "}
+              <div>
+                Score: {score}{" "}
+                <button
+                  onClick={() => handleRemoveItem(id)}
+                  className="common-btn remove-btn ml-1"
+                >
+                  x
+                </button>
+              </div>
+            </li>
+          ))}
         </ul>
       )}
+
       {contextBlock && (
         <ContextMenu
           anchor={anchor}
