@@ -6,6 +6,8 @@ import MultipleQuestion from "../components/questionType/MultipleQuestion";
 import BooleanQuestion from "../components/questionType/BooleanQuestion";
 import CustomProgressBar from "../components/CustomProgressBar";
 
+const calculateStep = (current, total) => ((current / total) * 100).toFixed();
+
 const Quiz = ({ data, loading, setCorrectAnswers }) => {
   const [initialQuestions, setInitialQuestions] = useState({
     type: null,
@@ -19,7 +21,7 @@ const Quiz = ({ data, loading, setCorrectAnswers }) => {
   const { type, total, currentQuestion } = initialQuestions;
 
   const handleProgressBarChange = useCallback(() => {
-    setProgress(((currentQuestion / total) * 100).toFixed());
+    setProgress(calculateStep(currentQuestion, total));
   }, [currentQuestion, total]);
 
   useEffect(() => {
