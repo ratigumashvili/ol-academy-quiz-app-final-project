@@ -11,9 +11,11 @@ const OptionBtn = ({
   value,
 }) => {
   const [dataSelected, setDataSelected] = useState("false");
+
   const handleDataAttribute = () => {
     setDataSelected("true");
   };
+
   return (
     <button
       disabled={disabled}
